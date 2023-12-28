@@ -33,7 +33,7 @@ services:
     container_name: ${PROJECT_NAME:-openimis}-db
     build:
       target: ${INIT_MODE:-empty}
-      context: https://github.com/openimis/database_postgresql.git#feature/init_db_mode
+      context: ghcr.io/openimis/openimis-pgsql:${DB_TAG:-latest}
     environment:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_DB=${DB_NAME}
