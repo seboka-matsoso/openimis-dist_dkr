@@ -26,7 +26,7 @@ services:
       openimis-net:
   backend:
     container_name: ${PROJECT_NAME:-openimis}-api
-    image: docker.io/seboka/openimis-be:23.25
+    image: docker.io/seboka/openimis-be:23.26
     restart: always
     command: start
     volumes:
@@ -72,7 +72,7 @@ services:
       #- ./conf/nginx:/conf/
   worker:
     container_name: ${PROJECT_NAME:-openimis}-worker
-    image: docker.io/seboka/openimis-be:23.25
+    image: docker.io/seboka/openimis-be:23.26
     command: worker
     restart: always
     volumes:
