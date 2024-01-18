@@ -1,9 +1,9 @@
-version: "3.7"
+version: "3.8"
 
 services:
   db:
     container_name: ${PROJECT_NAME:-openimis}-db
-    image: ghcr.io/openimis/openimis-pgsql:${DB_TAG:-latest}
+    image: ghcr.io/openimis/openimis-pgsql:23.10
     build:
       target: ${INIT_MODE:-base}
     environment:
@@ -17,6 +17,8 @@ services:
       timeout: 5s
       retries: 5
       start_period: 30s
+    ports:
+      - "5432:5432"
     volumes:
       - database:/var/lib/postgresql/data
     restart: always
@@ -24,7 +26,7 @@ services:
       openimis-net:
   backend:
     container_name: ${PROJECT_NAME:-openimis}-api
-    image: ghcr.io/openimis/openimis-be:${BE_TAG:-develop}
+    image: docker.io/seboka/openimis-be:23.25
     restart: always
     command: start
     volumes:
@@ -49,7 +51,7 @@ services:
 
   frontend:
     container_name: ${PROJECT_NAME:-openimis}-frontend
-    image: ghcr.io/openimis/openimis-fe:${FE_TAG:-develop}
+    image: docker.io/seboka/openimis-fe:23.63
     restart: always
     environment:
       - REACT_APP_API_URL=api
@@ -70,7 +72,7 @@ services:
       #- ./conf/nginx:/conf/
   worker:
     container_name: ${PROJECT_NAME:-openimis}-worker
-    image: ghcr.io/openimis/openimis-be:${BE_TAG:-develop}
+    image: docker.io/seboka/openimis-be:23.25
     command: worker
     restart: always
     volumes:
@@ -88,7 +90,7 @@ services:
       openimis-net:
   restapi:
     container_name: ${PROJECT_NAME:-openimis}-restapi
-    image: ghcr.io/openimis/openimis-rest_api:${RESTAPI_TAG:-latest}
+    image: ghcr.io/openimis/openimis-rest_api:develop
     environment:
       - DB_HOST=${DB_HOST}
       - DB_PORT=${DB_PORT}
